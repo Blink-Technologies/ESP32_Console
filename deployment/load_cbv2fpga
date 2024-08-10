@@ -1,0 +1,3 @@
+cp /Users/jp/Documents/HW_Design/DIAMOND/cbv2_a1/a1/cbv2_a1.bit /Users/jp/Documents/SW_Design/ESP32/esp32_fpga/spiffs_data/fpga.bin
+python3 spiffsgen.py 1048576 ../spiffs_data storage.bin
+esptool.py --chip esp32c6 --port /dev/cu.usbmodem843401 --baud 1960800 write_flash -z 0x90000 storage.bin 

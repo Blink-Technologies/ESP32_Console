@@ -1,0 +1,5 @@
+nvs, data, nvs, , 0x600,
+phy_init, data, phy, , 0x1000,
+factory, app, factory, , 512K,
+storage, data, spiffs, , 256K,
+sound, data, spiffs, , 2M

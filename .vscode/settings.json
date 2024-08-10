@@ -1,0 +1,28 @@
+{
+    "idf.adapterTargetName": "esp32c6",
+    "files.associations": {
+        "esp_spiffs.h": "c",
+        "myheaders.h": "c",
+        "spi_send.h": "c",
+        "i2c_send.h": "c",
+        "spi_load.h": "c",
+        "i2s_std.h": "c",
+        "esp_log.h": "c",
+        "i2s_audio.h": "c",
+        "cstdlib": "c",
+        "female.h": "c",
+        "taunt.h": "c",
+        "ff.h": "c",
+        "chrono": "c",
+        "typeinfo": "c",
+        "cstdint": "c",
+        "*.tcc": "c",
+        "output.h": "c",
+        "freertos.h": "c"
+    },
+    "idf.flashType": "UART",
+    "idf.portWin": "COM10",
+    "idf.openOcdConfigs": [
+        "board/esp32c6-bridge.cfg"
+    ]
+}

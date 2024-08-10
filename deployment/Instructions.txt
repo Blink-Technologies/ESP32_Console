@@ -1,0 +1,21 @@
+Instructions
+
+1. Make sure you have python installed
+
+2. Install esptool 
+	pip install esptool
+	
+3. Make sure you have "fpga.bin" inside "spiffs_data" folder
+
+4. First create spiffs partition
+	python spiffsgen.py 1048576 [spiffs_data] storage.bin
+	Example : python spiffsgen.py 1048576 ../spiffs_data storage.bin
+	
+5. Flash the partition 
+	esptool --chip esp32c6 --port [COM] --baud 460800 write_flash -z 0x90000 storage.bin
+	
+6. All the commands are packaged inside spiffs_flasher.bat
+   This batch files takes the argument COM Port and spiffs_data folder location
+
+	spiffs_flasher.bat COM10 ../spiffs_data
+
