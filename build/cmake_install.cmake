@@ -1,4 +1,4 @@
-# Install script for directory: D:/ESP_Projects/esp32_fpga_C6_I2S_20062024/esp32_fpga/esp32_fpga
+# Install script for directory: D:/ESP_Projects/ESP32_Console
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("D:/ESP_Projects/esp32_fpga_C6_I2S_20062024/esp32_fpga/esp32_fpga/build/esp-idf/cmake_install.cmake")
+  include("D:/ESP_Projects/ESP32_Console/build/esp-idf/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "D:/ESP_Projects/esp32_fpga_C6_I2S_20062024/esp32_fpga/esp32_fpga/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "D:/ESP_Projects/ESP32_Console/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

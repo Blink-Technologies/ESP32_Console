@@ -1,4 +1,4 @@
-# Install script for directory: D:/ESP_Projects/esp32_fpga_C6_I2S_20062024/esp32_fpga/esp32_fpga/main
+# Install script for directory: D:/ESP_Projects/ESP32_Console/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

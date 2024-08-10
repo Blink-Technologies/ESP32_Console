@@ -133,7 +133,6 @@ void play_mp3_task(void *args)
          printf("MP3 INFO.LAYER : %d \n", info.layer);  
   
 
-          //output_start(info.hz);
               i2s_std_clk_config_t clk_cfgg = {
                 .sample_rate_hz = info.hz, \
                 .clk_src = I2S_CLK_SRC_DEFAULT, \
@@ -141,11 +140,11 @@ void play_mp3_task(void *args)
             };
             
             i2s_std_slot_config_t slot_cfgg = { \
-                .data_bit_width = 32, \
+                .data_bit_width = 16, \
                 .slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO, \
                 .slot_mode = info.channels, \
                 .slot_mask = I2S_STD_SLOT_BOTH, \
-                .ws_width = 32, \
+                .ws_width = 16, \
                 .ws_pol = false, \
                 .bit_shift = false, \
                 .left_align = true, \
@@ -213,14 +212,16 @@ void play_mp3_task(void *args)
       }
        //ESP_LOGI("MP3", "decoded %d samples\n", decoded);
     }
-    ESP_LOGI("MP3", "Finished\n");
-    printf("MP3 finished");
-
+    ESP_LOGI("MP3", "Finished");
     free(frames_buffer);    
     free(fullPath);
     free(fileIndex);
+    free(pcm);
+    free(input_buf);
     fclose(fp);
+
     i2s_channel_disable(i2s_tx_handle);
+    i2s_del_channel(i2s_tx_handle);
     //i2s_del_channel(i2s_tx_handle);
     ESP_LOGI("MP3", "Task Going to be Deleted");
     vTaskDelete(NULL);
@@ -273,7 +274,6 @@ void i2s_init_std_simplex(uint32_t ClockRate, uint8_t DataBits, uint8_t Channels
     
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(i2s_tx_handle, &tx_std_cfg));  
 }
-
 
 void i2s_write_spiffs(void *args)
 {
@@ -370,7 +370,7 @@ void i2s_write_spiffs(void *args)
             printf("Audio Completed \n");
     }
 
-    printf("Task Deleted \n");
+  printf("Task Deleted \n");
 
   free(fullPath);
   free(fileIndex);
@@ -387,7 +387,8 @@ void Play_Wav(int index, int vol)
 {
     SoundParams.fileIndex = index;
     SoundParams.Volume = vol;
-    
+    i2s_init_std_simplex(44100, 16, 1);
+
     xTaskCreate(i2s_write_spiffs, "i2s_write_spiffs", 4096, (void *)&SoundParams, 5, NULL);
 
 }
@@ -397,6 +398,7 @@ void Play_MP3(int index, int vol)
 {
     SoundParams.fileIndex = index;
     SoundParams.Volume = vol;
+    i2s_init_std_simplex(44100, 16, 1);
 
     //xTaskCreatePinnedToCore(play_mp3_task, "play_mp3_task", 32768, (void *)&SoundParams, 1, NULL, 1);
     xTaskCreate(play_mp3_task, "play_mp3_task", 32768, (void *)&SoundParams, 3, NULL);
@@ -406,7 +408,6 @@ void Play_MP3(int index, int vol)
 void init_i2s_audio()
 {
     printf("I2S Code ... \n");
-    i2s_init_std_simplex(22050, 16, 1);
 
     gpio_set_direction(I2S_SD, GPIO_MODE_OUTPUT);
 

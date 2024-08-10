@@ -3,4 +3,4 @@ source "C:/Users/haseeb/esp/v5.2.2/esp-idf/components/esp_app_format/Kconfig.pro
 source "C:/Users/haseeb/esp/v5.2.2/esp-idf/components/esp_rom/Kconfig.projbuild"
 source "C:/Users/haseeb/esp/v5.2.2/esp-idf/components/esptool_py/Kconfig.projbuild"
 source "C:/Users/haseeb/esp/v5.2.2/esp-idf/components/partition_table/Kconfig.projbuild"
-source "D:/ESP_Projects/esp32_fpga_C6_I2S_20062024/esp32_fpga/esp32_fpga/main/Kconfig.projbuild"
+source "D:/ESP_Projects/ESP32_Console/main/Kconfig.projbuild"
