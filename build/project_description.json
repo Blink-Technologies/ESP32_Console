@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "blink",
-    "project_version":    "67807bd-dirty",
+    "project_version":    "9cc459d-dirty",
     "project_path":       "D:/ESP_Projects/ESP32_Console",
     "idf_path":           "C:/Users/haseeb/esp/v5.2.2/esp-idf",
     "build_dir":          "D:/ESP_Projects/ESP32_Console/build",

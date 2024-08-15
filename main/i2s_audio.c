@@ -136,13 +136,13 @@ void play_mp3_task(void *args)
               i2s_std_clk_config_t clk_cfgg = {
                 .sample_rate_hz = info.hz, \
                 .clk_src = I2S_CLK_SRC_DEFAULT, \
-                .mclk_multiple = I2S_MCLK_MULTIPLE_256, \
+                .mclk_multiple = I2S_MCLK_MULTIPLE_512, \
             };
             
             i2s_std_slot_config_t slot_cfgg = { \
                 .data_bit_width = 16, \
                 .slot_bit_width = I2S_SLOT_BIT_WIDTH_AUTO, \
-                .slot_mode = info.channels, \
+                .slot_mode = 1, \
                 .slot_mask = I2S_STD_SLOT_BOTH, \
                 .ws_width = 16, \
                 .ws_pol = false, \
@@ -166,11 +166,13 @@ void play_mp3_task(void *args)
         // we can do this in place as our samples buffer has enough space
         if (info.channels == 1)
         {
+          /*
           for (int i = samples - 1; i >= 0; i--)
           {
             pcm[i * 2] = pcm[i];
             pcm[i * 2 - 1] = pcm[i];
           }
+          */
         }
 
         //ESP_LOGI("MP3", "write the decoded samples to the I2S output");
@@ -184,10 +186,11 @@ void play_mp3_task(void *args)
           for (int i = 0; i < NUM_FRAMES_TO_SEND && frame_index < samples; i++)
           {
 
-            int left_sample = process_sample(vol * (float)pcm[frame_index * 2]);
-            int right_sample = process_sample(vol * (float)pcm[frame_index * 2 + 1]);
-            frames_buffer[i * 2] = left_sample;
-            frames_buffer[i * 2 + 1] = right_sample;
+            frames_buffer[i]  = process_sample(vol * (float)pcm[frame_index]);     
+            //int left_sample = process_sample(pcm[frame_index * 2]);
+            //int right_sample = process_sample(pcm[frame_index * 2 + 1]);
+            //frames_buffer[i] = left_sample;
+            //frames_buffer[i * 2 + 1] = right_sample;
             frames_to_send++;
             frame_index++;
 
@@ -196,13 +199,13 @@ void play_mp3_task(void *args)
           }
           //ESP_LOGI("MP3", "write data to the i2s peripheral");
           size_t bytes_written = 0;
-          size_t bytes2sent = frames_to_send * sizeof(int16_t) * 2;
+          size_t bytes2sent = frames_to_send * sizeof(int16_t);// * 2;
           //i2s_write(m_i2s_port, frames_buffer, frames_to_send * sizeof(int16_t) * 2, &bytes_written, portMAX_DELAY);
           i2s_channel_write(i2s_tx_handle, frames_buffer, bytes2sent , &bytes_written, portMAX_DELAY);
           //ESP_LOGI("MP3", "I2C WRITTEN");
 
 
-          if (bytes_written != frames_to_send * sizeof(int16_t) * 2)
+          if (bytes_written != frames_to_send * sizeof(int16_t))
           {
             ESP_LOGE(TAG, "Did not write all bytes");
           }
@@ -389,7 +392,7 @@ void Play_Wav(int index, int vol)
     SoundParams.Volume = vol;
     i2s_init_std_simplex(44100, 16, 1);
 
-    xTaskCreate(i2s_write_spiffs, "i2s_write_spiffs", 4096, (void *)&SoundParams, 5, NULL);
+    xTaskCreate(i2s_write_spiffs, "i2s_write_spiffs", 4096, (void *)&SoundParams, 1, NULL);
 
 }
 
@@ -400,8 +403,8 @@ void Play_MP3(int index, int vol)
     SoundParams.Volume = vol;
     i2s_init_std_simplex(44100, 16, 1);
 
-    //xTaskCreatePinnedToCore(play_mp3_task, "play_mp3_task", 32768, (void *)&SoundParams, 1, NULL, 1);
-    xTaskCreate(play_mp3_task, "play_mp3_task", 32768, (void *)&SoundParams, 3, NULL);
+    //xTaskCreatePinnedToCore(play_mp3_task, "play_mp3_task", 52768, (void *)&SoundParams, 1, NULL, 1);
+    xTaskCreate(play_mp3_task, "play_mp3_task", 52768, (void *)&SoundParams, 1, NULL);
 }
 
 
